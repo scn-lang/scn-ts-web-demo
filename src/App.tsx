@@ -1,35 +1,49 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from "react";
 import {
   initializeParser,
   logger,
   analyzeProject,
   FileContent,
   LogHandler,
-} from 'repograph-browser';
-import { generateScn } from 'scn-ts-browser';
-import { defaultFilesJSON } from './default-files';
-import { Button } from './components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from './components/ui/card';
-import { Textarea } from './components/ui/textarea';
-import LogViewer, { LogEntry } from './components/LogViewer';
-import { Play, Loader } from 'lucide-react';
+} from "scn-ts-browser";
+import { generateScn } from "scn-ts-browser";
+import { defaultFilesJSON } from "./default-files";
+import { Button } from "./components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "./components/ui/card";
+import { Textarea } from "./components/ui/textarea";
+import LogViewer, { LogEntry } from "./components/LogViewer";
+import { Play, Loader } from "lucide-react";
 
 function App() {
   const [isInitialized, setIsInitialized] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [filesInput, setFilesInput] = useState(defaultFilesJSON);
-  const [scnOutput, setScnOutput] = useState('');
+  const [scnOutput, setScnOutput] = useState("");
   const [logs, setLogs] = useState<LogEntry[]>([]);
 
   useEffect(() => {
     const init = async () => {
       try {
-        await initializeParser({ wasmBaseUrl: '/wasm/' });
+        await initializeParser({ wasmBaseUrl: "/wasm/" });
         setIsInitialized(true);
-        setLogs(prev => [...prev, { level: 'info', message: 'Parser initialized.', timestamp: Date.now() }]);
+        setLogs((prev) => [
+          ...prev,
+          {
+            level: "info",
+            message: "Parser initialized.",
+            timestamp: Date.now(),
+          },
+        ]);
       } catch (error) {
         const message = error instanceof Error ? error.message : String(error);
-        setLogs(prev => [...prev, { level: 'error', message: `Failed to initialize parser: ${message}`, timestamp: Date.now() }]);
+        setLogs((prev) => [
+          ...prev,
+          {
+            level: "error",
+            message: `Failed to initialize parser: ${message}`,
+            timestamp: Date.now(),
+          },
+        ]);
       }
     };
     init();
@@ -37,20 +51,27 @@ function App() {
 
   const handleAnalyze = useCallback(async () => {
     if (!isInitialized) {
-      setLogs(prev => [...prev, { level: 'warn', message: 'Parser not ready.', timestamp: Date.now() }]);
+      setLogs((prev) => [
+        ...prev,
+        { level: "warn", message: "Parser not ready.", timestamp: Date.now() },
+      ]);
       return;
     }
 
     setIsLoading(true);
     setLogs([]);
-    setScnOutput('');
+    setScnOutput("");
 
     const logHandler: LogHandler = (level, ...args) => {
-      const message = args.map(arg => typeof arg === 'object' ? JSON.stringify(arg) : String(arg)).join(' ');
-      setLogs(prev => [...prev, { level, message, timestamp: Date.now() }]);
+      const message = args
+        .map((arg) =>
+          typeof arg === "object" ? JSON.stringify(arg) : String(arg),
+        )
+        .join(" ");
+      setLogs((prev) => [...prev, { level, message, timestamp: Date.now() }]);
     };
     logger.setLogHandler(logHandler);
-    logger.setLevel('debug');
+    logger.setLevel("debug");
 
     try {
       let files: FileContent[] = [];
@@ -58,16 +79,17 @@ function App() {
         files = JSON.parse(filesInput);
         if (!Array.isArray(files)) throw new Error("Input is not an array.");
       } catch (error) {
-        throw new Error(`Invalid JSON input: ${error instanceof Error ? error.message : String(error)}`);
+        throw new Error(
+          `Invalid JSON input: ${error instanceof Error ? error.message : String(error)}`,
+        );
       }
 
       const rankedGraph = await analyzeProject({ files });
       const scn = generateScn(rankedGraph, files);
       setScnOutput(scn);
-
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
-      logger.error('Analysis failed:', message);
+      logger.error("Analysis failed:", message);
     } finally {
       setIsLoading(false);
       logger.setLogHandler(null);
@@ -87,7 +109,7 @@ function App() {
           Analyze
         </Button>
       </header>
-      
+
       <main className="flex-grow grid grid-cols-1 lg:grid-cols-2 gap-4 h-[calc(100vh-150px)]">
         <Card className="flex flex-col">
           <CardHeader>
@@ -102,15 +124,16 @@ function App() {
             />
           </CardContent>
         </Card>
-        
+
         <Card className="flex flex-col overflow-hidden">
-           <CardHeader>
+          <CardHeader>
             <CardTitle>Output (SCN)</CardTitle>
           </CardHeader>
           <CardContent className="flex-grow overflow-auto p-0">
             <pre className="text-xs whitespace-pre font-mono p-4 h-full w-full">
               <code>
-                {scnOutput || (isLoading ? "Generating..." : "Output will appear here.")}
+                {scnOutput ||
+                  (isLoading ? "Generating..." : "Output will appear here.")}
               </code>
             </pre>
           </CardContent>
