@@ -10,8 +10,7 @@
         "lucide-react": "^0.379.0",
         "react": "^18.3.1",
         "react-dom": "^18.3.1",
-        "repograph-browser": "0.1.10",
-        "scn-ts-browser": "1.0.1",
+        "scn-ts-browser": "1.0.4",
         "tailwind-merge": "^2.3.0",
         "web-tree-sitter": "^0.25.6",
       },
@@ -520,7 +519,7 @@
 
     "readdirp": ["readdirp@3.6.0", "", { "dependencies": { "picomatch": "^2.2.1" } }, "sha512-hOS089on8RduqdbhvQ5Z37A0ESjsqz6qnRcffsMU3495FuTdqSm+7bhJ29JvIOsBDEEnan5DPu9t3To9VRlMzA=="],
 
-    "repograph-browser": ["repograph-browser@0.1.10", "", { "dependencies": { "repograph-core": "0.1.20", "web-tree-sitter": "^0.25.6" } }, "sha512-yJMjylTutG+vxXVcJlHEikMb3bDZmNcVSH1m1jpgqxhdaIDWddfvBZGx3EV6z+pBwPFJdcf8eUuhtkgi2d6OlQ=="],
+    "repograph-browser": ["repograph-browser@0.1.11", "", { "dependencies": { "repograph-core": "0.1.20", "web-tree-sitter": "^0.25.6" } }, "sha512-zr7bCguNWfQSK05fHtK92R6pByP7CaXtRZRAcTIPyzmKXl1Cp0qnhcNzrj3IbYg5WPVp6QLQjJciMHTjkwXvYw=="],
 
     "repograph-core": ["repograph-core@0.1.20", "", { "dependencies": { "graphology": "^0.26.0", "graphology-pagerank": "^1.1.0", "web-tree-sitter": "^0.25.6" } }, "sha512-Rshg7LquOSqS6qTkdCdRqWvwFOZ2rRMo5uQKZ8DSp5lMEo9sleRgfdLHrEhHfD1RmBHR78dx3tWm+X0NCYrY8Q=="],
 
@@ -538,7 +537,7 @@
 
     "scheduler": ["scheduler@0.23.2", "", { "dependencies": { "loose-envify": "^1.1.0" } }, "sha512-UOShsPwz7NrMUqhR6t0hWjFduvOzbtv7toDH1/hIrfRNIDBnnBWd0CwJTGvTpngVlmwGCdP9/Zl/tVrDqcuYzQ=="],
 
-    "scn-ts-browser": ["scn-ts-browser@1.0.1", "", { "dependencies": { "scn-ts-core": "1.0.1" }, "peerDependencies": { "repograph-browser": ">=0.1.10" } }, "sha512-AjRHLGannS2Gtp507FjfINs7dv/pDJ7eRTRJc5CiOXSKRkYzCJWpj8grMDkEnefaoSB4Bv0gHcvYRMKCbdNu/Q=="],
+    "scn-ts-browser": ["scn-ts-browser@1.0.4", "", { "dependencies": { "scn-ts-core": "1.0.1" }, "peerDependencies": { "repograph-browser": ">=0.1.11" } }, "sha512-5Ast4oRT28ws2cc4LUoUs9ESJ92pguadvxvdIoQPpb5AH5DbARgvs5fa203uZiDcvgM1BqFaPQapOEz3SwuVtQ=="],
 
     "scn-ts-core": ["scn-ts-core@1.0.1", "", { "dependencies": { "repograph-core": "0.1.20" } }, "sha512-GZXQcyjJnvOud8EXtNMG8Za3umkLNlGmGgTC9bNmMg3z5aicWSWVzHSh3XJhQO3PgwLMn4cSZfX8IyB3tc3vNA=="],
 

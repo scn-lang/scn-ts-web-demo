@@ -1,4 +1,4 @@
-import { FileContent } from "repograph-browser";
+import { FileContent } from "scn-ts-browser";
 
 const files: FileContent[] = [
   {

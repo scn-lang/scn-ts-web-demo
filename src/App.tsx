@@ -19,6 +19,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [filesInput, setFilesInput] = useState(defaultFilesJSON);
   const [scnOutput, setScnOutput] = useState('');
+  const [progress, setProgress] = useState<{ percentage: number; message: string } | null>(null);
   const [logs, setLogs] = useState<LogEntry[]>([]);
 
   useEffect(() => {
@@ -44,6 +45,7 @@ function App() {
     setIsLoading(true);
     setLogs([]);
     setScnOutput('');
+    setProgress(null);
 
     const logHandler: LogHandler = (level, ...args) => {
       const message = args.map(arg => typeof arg === 'object' ? JSON.stringify(arg) : String(arg)).join(' ');
@@ -51,6 +53,11 @@ function App() {
     };
     logger.setLogHandler(logHandler);
     logger.setLevel('debug');
+
+    const onProgress = (progressData: { percentage: number; message: string }) => {
+      setProgress(progressData);
+      logger.info(`[${Math.round(progressData.percentage)}%] ${progressData.message}`);
+    };
 
     try {
       let files: FileContent[] = [];
@@ -61,15 +68,16 @@ function App() {
         throw new Error(`Invalid JSON input: ${error instanceof Error ? error.message : String(error)}`);
       }
 
-      const rankedGraph = await analyzeProject({ files });
+      const rankedGraph = await analyzeProject({ files, onProgress, logLevel: 'debug' });
       const scn = generateScn(rankedGraph, files);
       setScnOutput(scn);
-
+      logger.info('Analysis complete.');
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
       logger.error('Analysis failed:', message);
     } finally {
       setIsLoading(false);
+      setProgress(null);
       logger.setLogHandler(null);
     }
   }, [filesInput, isInitialized]);
@@ -78,13 +86,18 @@ function App() {
     <div className="min-h-screen flex flex-col p-4 gap-4">
       <header className="flex-shrink-0 flex items-center justify-between">
         <h1 className="text-2xl font-bold">SCN-TS Web Demo</h1>
-        <Button onClick={handleAnalyze} disabled={isLoading || !isInitialized}>
+        <Button onClick={handleAnalyze} disabled={isLoading || !isInitialized} className="w-32 justify-center">
           {isLoading ? (
-            <Loader className="mr-2 h-4 w-4 animate-spin" />
+            <>
+              <Loader className="mr-2 h-4 w-4 animate-spin" />
+              <span>{progress ? `${Math.round(progress.percentage)}%` : 'Analyzing...'}</span>
+            </>
           ) : (
-            <Play className="mr-2 h-4 w-4" />
+            <>
+              <Play className="mr-2 h-4 w-4" />
+              <span>Analyze</span>
+            </>
           )}
-          Analyze
         </Button>
       </header>
       
