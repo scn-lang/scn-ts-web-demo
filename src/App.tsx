@@ -5,8 +5,8 @@ import {
   analyzeProject,
   FileContent,
   LogHandler,
-} from 'repograph-browser';
-import { generateScn } from 'scn-ts-browser';
+  generateScn,
+} from 'scn-ts-browser';
 import { defaultFilesJSON } from './default-files';
 import { Button } from './components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from './components/ui/card';

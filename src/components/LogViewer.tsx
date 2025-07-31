@@ -1,5 +1,5 @@
 import React from 'react';
-import { LogLevel } from 'repograph-browser';
+import { LogLevel } from 'scn-ts-browser';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { cn } from '@/lib/utils';
 
